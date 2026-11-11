@@ -6,12 +6,26 @@ public class IUManager : MonoBehaviour
     public GameObject panelCreditos;
     public GameObject panelInformacion;
     public GameObject panelPrincipal;
+    public GameObject panelMovimiento;
+    public GameObject panelPowerUp;
+    public GameObject panelConfiguracion;
+    public GameObject panelNivel;
+    public GameObject panelSalir;
     public void TogglePanel(GameObject panel)
     {
         if(panel != null)
         {
-            bool toggle = panel.activeInHierarchy ? false : true;
-            panel.SetActive(toggle);
+            bool activar = !panel.activeSelf;
+            if(panelCreditos != null)panelCreditos.SetActive(false);
+            
+            if(panelInformacion != null)panelInformacion.SetActive(false);
+            if(panelPrincipal != null)panelPrincipal.SetActive(false);
+            if(panelMovimiento != null)panelMovimiento.SetActive(false);
+            if(panelPowerUp != null)panelPowerUp.SetActive(false);
+            if(panelConfiguracion != null)panelConfiguracion.SetActive(false);
+            if(panelNivel != null)panelNivel.SetActive(false);
+            if(panelSalir != null)panelSalir.SetActive(false);
+            if(activar)panel.SetActive(true);
         }
     }
     public void QuitGame()

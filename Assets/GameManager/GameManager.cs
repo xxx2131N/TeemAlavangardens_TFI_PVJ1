@@ -76,11 +76,11 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         estadoActual = GameState.GameOver;
-        Time.timeScale = 0f;
         if(panelGameOver != null)
         {
             Debug.Log("GAME OVER");
             panelGameOver.SetActive(true);
+            Time.timeScale = 0f;
         }
         if (panelHUD != null)
         {

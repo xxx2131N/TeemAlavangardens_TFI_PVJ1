@@ -1,17 +1,12 @@
 using UnityEngine;
 using System.Collections;
+
 public class POwerUp : MonoBehaviour
 {
-    private GameObject PRed;
-    private GameObject PBlue;
-    private GameObject PGreen;
-    private PlayerController player;
-    private float tiempoPowerUp;
-    private EnemyController enemy;
+    private PlayerHUD playerHUD;
     void Start()
     {
-        player= PlayerController.instance;
-        enemy = EnemyController.instance;
+        playerHUD = GetComponent<PlayerHUD>();
     }
 
     void Update()
@@ -20,47 +15,46 @@ public class POwerUp : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if(other.CompareTag("PRed"))
         {
-            if (gameObject == PRed)
-            {
-                PowerUpRed();
-            }
-            else if (gameObject == PBlue)
-            {
-                PowerUpBlue();
-            }
-            else if (gameObject == PGreen)
-            {
-                PowerUpGreen();
-            }
+            other.gameObject.SetActive(false);
+            PowerUpRed();
+        }
+        else if(other.CompareTag("PBlue"))
+        {
+            other.gameObject.SetActive(false);
+            PowerUpBlue();
+        }
+        else if(other.CompareTag("PGreen"))
+        {
+            other.gameObject.SetActive(false);
+            PowerUpGreen();
+        }
+        else if(other.CompareTag("Star"))
+        {
+            other.gameObject.SetActive(false);
+            puntuacion();
         }
     }
     public void PowerUpRed()
     {
-        if (tag == PlayerController.instance.tag)
-        {
-            PRed.SetActive(false);
-            PerderVida.instance.vida = false;
-            tiempoPowerUp = 5f;
-            
-        }
+        Debug.Log("se agarro poder rojo");
+        
     }
     public void PowerUpBlue()
     {
-        if (tag == PlayerController.instance.tag)
-        {
-            PBlue.SetActive(false);
-            EnemyController.instance.speed -= 5f;
-            tiempoPowerUp = 5f;
-        }
+        //enemigo.velocidad == velocidad/2;
+        Debug.Log("se agarro poder azul");
     }
     public void PowerUpGreen()
     { 
-        if (tag == PlayerController.instance.tag)
-        {
-            PGreen.SetActive(false);
-            player.vida += 1;
-        }
+        playerHUD.CurarVida(1);
+        Debug.Log("se ha obtenido una vida");
     }
+    public void puntuacion()
+    {
+        playerHUD.SumarPuntos(100);
+        Debug.Log("se a agarrado Star");
+    }
+
 }

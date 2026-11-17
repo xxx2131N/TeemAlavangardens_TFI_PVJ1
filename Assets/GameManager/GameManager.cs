@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     public GameObject panelInicio;
     public GameObject panelHUD;
     public GameObject panelPause;
@@ -45,6 +45,10 @@ public class GameManager : MonoBehaviour
                 ReanudarJuego();
             }
         }
+    }
+    public void Awake()
+    {
+        instance = this;
     }
     public void createPanel()
     {

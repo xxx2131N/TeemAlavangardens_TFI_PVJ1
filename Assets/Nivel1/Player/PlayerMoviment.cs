@@ -17,7 +17,7 @@ public class PlayerMoviment : MonoBehaviour
     {
         isGrounded = controller.isGrounded;
         float horizontalInput = Input.GetAxis("Horizontal");
-        Vector3 moveDirection = new Vector3(horizontalInput, 0f, 5f);
+        Vector3 moveDirection = new Vector3(horizontalInput, 0f, 0f);
         controller.Move(moveDirection * speed * Time.deltaTime);
         
         if (isGrounded && speed > 0)

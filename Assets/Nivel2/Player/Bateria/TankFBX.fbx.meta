@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a5470bda61d80541b02b113f67b2cee
+guid: 8f92fcaa3888bce44a455a024521f2b3
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: defaultMat
-    second: {fileID: 2100000, guid: dd82c63b0be123d4485e7994cb92c158, type: 2}
+      name: Material #914
+    second: {fileID: 2100000, guid: aac917c5599354f4fb57f3c79163ca22, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

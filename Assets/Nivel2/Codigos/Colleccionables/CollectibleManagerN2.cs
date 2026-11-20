@@ -6,6 +6,8 @@ public class CollectibleManagerN2 : MonoBehaviour
 
     private int collectibleCount;
 
+    [SerializeField] private CollectibleUI collectibleUI;
+
     private void Awake()
     {
         Instance = this;
@@ -16,6 +18,8 @@ public class CollectibleManagerN2 : MonoBehaviour
         collectibleCount++;
 
         Debug.Log("Collectibles: " + collectibleCount);
+
+        collectibleUI.UpdateCounter(collectibleCount);
     }
 
     public int GetCollectibleCount()

@@ -9,6 +9,8 @@ TagManager:
   - PBlue
   - PGreen
   - Star
+  - Caos
+  - plataforma
   layers:
   - Default
   - TransparentFX
@@ -17,8 +19,8 @@ TagManager:
   - Water
   - UI
   - "Da\xF1o"
-  - 
-  - 
+  - caminar
+  - Plataforma
   - 
   - 
   - 

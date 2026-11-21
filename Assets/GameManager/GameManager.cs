@@ -4,101 +4,147 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
     public GameObject panelInicio;
+    public GameObject Informacion;
     public GameObject panelHUD;
     public GameObject panelPause;
     public GameObject panelGameOver;
     public GameObject panelVictoria;
+
     public GameState estadoActual;
+
     public enum GameState
     {
         Inicio,
+        Informacion,
         Jugando,
         Pausa,
         GameOver,
         Victoria
     }
-    void Start()
+
+    private void Awake()
     {
-        Time.timeScale = 1f;
-        estadoActual = GameState.Inicio;
+        instance = this;
     }
-    void Update()
+
+    private void Start()
+    {
+        Time.timeScale = 0f;
+        estadoActual = GameState.Inicio;
+
+        if (panelInicio != null) panelInicio.SetActive(true);
+        if (Informacion != null) Informacion.SetActive(false);
+        if (panelHUD != null) panelHUD.SetActive(false);
+        if (panelPause != null) panelPause.SetActive(false);
+        if (panelGameOver != null) panelGameOver.SetActive(false);
+        if (panelVictoria != null) panelVictoria.SetActive(false);
+    }
+
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(panelInicio != null)
+            if (estadoActual == GameState.Inicio)
             {
-                panelInicio.SetActive(false);
+                MostrarInformacion();
             }
-            estadoActual = GameState.Jugando;
-            Time.timeScale = 1f;
+            else if (estadoActual == GameState.Informacion)
+            {
+                EmpezarJuego();
+            }
         }
-        if (Input.GetKeyDown(KeyCode.P))
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(estadoActual == GameState.Jugando)
+            if (estadoActual == GameState.Jugando)
             {
                 PauseGame();
             }
-            else if(estadoActual == GameState.Pausa)
+            else if (estadoActual == GameState.Pausa)
             {
                 ReanudarJuego();
             }
         }
     }
-    public void Awake()
+
+    public void MostrarInformacion()
     {
-        instance = this;
+        Time.timeScale = 0f;
+        estadoActual = GameState.Informacion;
+
+        if (panelInicio != null) panelInicio.SetActive(false);
+        if (Informacion != null) Informacion.SetActive(true);
+        if (panelHUD != null) panelHUD.SetActive(false);
     }
-    public void createPanel()
+
+    public void EmpezarJuego()
     {
-        if(panelHUD != null && panelInicio != null)
-        {
-            panelHUD.SetActive(true);
-        }
+        estadoActual = GameState.Jugando;
+
+        if (panelInicio != null) panelInicio.SetActive(false);
+        if (Informacion != null) Informacion.SetActive(false);
+        if (panelHUD != null) panelHUD.SetActive(true);
+
+        Time.timeScale = 1f;
     }
+
     public void PauseGame()
     {
-        if(panelPause != null)
+        if (panelPause != null)
         {
-            Debug.Log(" se ah PAUSADO el juego");
+            Debug.Log("Se ha PAUSADO el juego");
             panelPause.SetActive(true);
-            Time.timeScale = 0f;
-        }
-        estadoActual = GameState.Pausa;
-    }
-    public void ReanudarJuego()
-    {
-        Time.timeScale = 1f;
-        if(panelPause != null)
-        {
-            Debug.Log(" se ah REANUDADO el juego");
-            panelPause.SetActive(false);
-        }
-        estadoActual = GameState.Jugando;
-    }
-    public void GameOver()
-    {
-        estadoActual = GameState.GameOver;
-        if(panelGameOver != null)
-        {
-            Debug.Log("GAME OVER");
-            panelGameOver.SetActive(true);
-            Time.timeScale = 0f;
         }
         if (panelHUD != null)
         {
             panelHUD.SetActive(false);
         }
-        Debug.Log("estado:GAME OVER");
+
+        Time.timeScale = 0f;
+        estadoActual = GameState.Pausa;
     }
+
+    public void ReanudarJuego()
+    {
+        if (panelPause != null)
+        {
+            Debug.Log("Se ha REANUDADO el juego");
+            panelPause.SetActive(false);
+        }
+        if (panelHUD != null)
+        {
+            panelHUD.SetActive(true);
+        }
+
+        Time.timeScale = 1f;
+        estadoActual = GameState.Jugando;
+    }
+
+    public void GameOver()
+    {
+        estadoActual = GameState.GameOver;
+        Time.timeScale = 0f;
+
+        if (panelGameOver != null)
+        {
+            Debug.Log("GAME OVER");
+            panelGameOver.SetActive(true);
+        }
+        if (panelHUD != null)
+        {
+            panelHUD.SetActive(false);
+        }
+    }
+
     public void Victoria()
     {
-        Time.timeScale = 0f;
         estadoActual = GameState.Victoria;
-        if(panelVictoria != null)
+        Time.timeScale = 0f;
+
+        if (panelVictoria != null)
         {
-            
             Debug.Log("VICTORIA");
             panelVictoria.SetActive(true);
         }
@@ -106,18 +152,19 @@ public class GameManager : MonoBehaviour
         {
             panelHUD.SetActive(false);
         }
-        Debug.Log("estado:VICTORIA");
     }
+
     public void ToggelPanel(GameObject panel)
     {
-        if(panel != null)
+        if (panel != null)
         {
-            bool isActive = panel.activeSelf;
             panel.SetActive(!panel.activeSelf);
         }
     }
+
     public void ChangeScene(string sceneName)
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(sceneName);
     }
 }

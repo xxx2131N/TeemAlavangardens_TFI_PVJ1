@@ -11,7 +11,7 @@ public class PlayerHUD : MonoBehaviour
     public TextMeshProUGUI textoPuntos;
 
     private Transform newRespawnPoint;
-    private bool recibirDaño = true;
+    public bool recibirDaño = true;
 
     public void Start()
     {
@@ -29,12 +29,12 @@ public class PlayerHUD : MonoBehaviour
     }
     public void ActualizarHUD()
     {
-        textoVida.text = "Vida " + vida;
-        textoPuntos.text = "Puntos " + puntos;
+        if(textoVida != null)textoVida.text = "Vida " + vida;
+        if(textoPuntos != null)textoPuntos.text = "Puntos " + puntos;
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Daño"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Daño") || other.CompareTag("Caos"))
         {
             RecibirDaño(1);
         }
@@ -43,18 +43,23 @@ public class PlayerHUD : MonoBehaviour
             Debug.Log("se detecto el suelo");
             Respawn();
         }
+        if (other.CompareTag("Finish"))
+        {
+            final();
+        }
     }
     public void RecibirDaño(int cantidad)
     {
         if (recibirDaño == true)
         {
-            Debug.Log("Jugador ha muerto");
-            /*vida -= cantidad;
-            if (vida <= 0)
+            vida -= cantidad;
+            ActualizarHUD();
+            Debug.Log("el jugador recibio daño ");
+            if (vida<=0)
             {
                 GameManager.instance.GameOver();
-                Debug.Log("Jugador ha muerto");
-            }*/
+
+            }
         }
         else if (recibirDaño == false)
         {
@@ -83,5 +88,13 @@ public class PlayerHUD : MonoBehaviour
 
             Debug.Log("Jugador respauneado");
         }
+    }
+    public void SetInvulnerable(bool invulnerable)
+    {
+        recibirDaño = !invulnerable;
+    }
+    public void final()
+    {
+        GameManager.instance.Victoria();
     }
 }
